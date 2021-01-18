@@ -1,0 +1,2 @@
+class SwapiFilm < ApplicationRecord
+end

@@ -1,5 +1,5 @@
 class SwapiFilmsController < ApplicationController
-  before_action :set_swapi_film, only: [:show]
+  before_action :set_swapi_film, except: [:index]
 
   # GET /swapi_films
   def index
@@ -12,10 +12,19 @@ class SwapiFilmsController < ApplicationController
   def show
     render json: @swapi_film
   end
+  
+  # POST /swapi_films/1/submit_photo/
+  def submit_photo
+    @swapi_film.photo_url = params[:photo_url]
+    @swapi_film.save!
+
+    render json: { status: :no_content }
+  end
 
 private
   def set_swapi_film
-    @swapi_film = SwapiFilm.find(params[:id])
+    id = params[:id] || params[:swapi_film_id]
+    @swapi_film = SwapiFilm.find(id)
   end
 
 end
